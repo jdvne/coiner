@@ -1,0 +1,21 @@
+.full_height{
+    height: 100%;
+}
+
+.no_height{
+    height: 0px;
+}
+
+#form_login {
+    margin: auto;
+    text-align: center;
+}
+
+#login_header {
+    display: block;
+    text-align: center;
+}
+
+#login_buttons{
+    justify-content: center;
+}
