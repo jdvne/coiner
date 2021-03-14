@@ -1,4 +1,4 @@
-function validUsername(username) {
+function validUsername() {
     var validcharacters = '1234567890-_.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     for (var i = 0, l = username.length; i < l; ++i) {
