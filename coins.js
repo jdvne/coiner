@@ -78,3 +78,28 @@ function updateChart(name){
         }
     });
 }
+
+function populateList(coins){
+    var list = document.getElementById("coin-list");
+    // insert rows based upon coins
+}
+
+function updateList(coins){
+    for (const coin in coins){
+        var row = document.getElementById(name);
+        var curr = parseFloat(row.childNodes.item(3).textContent);
+        var next = getNextValue(curr);
+        row.childNodes.item(3).textContent = next;
+
+        var diff = coins[coin] - next;
+        row.childNodes.item(2).textContent = Math.abs(diff);
+        if (diff > 0){
+            row.childNodes.item(2).textContent = "▲ " + diff;
+            row.style = "color: green";
+        } else {
+            row.childNodes.item(2).textContent = "▼ " + Math.abs(diff);
+            row.style = "color: green";
+        }
+        // color row accordingly
+    }
+}
