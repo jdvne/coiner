@@ -8,6 +8,17 @@ chartColors = {
 	grey: 'rgb(201, 203, 207)'
 };
 
+var coins = {
+    "Bitcoin": 50000,
+    "Etherium": 1500,
+    "Dogecoin": 0.005,
+    "Litecoin": 20,
+    "Cardano": 0.15,
+    "Polkadot": 38,
+    "Bitcoin Cash": 550,
+    "Stellar": 0.42,
+    "Chainlink": 30
+};
 
 function makeChart(name, initial){
     var config = {
@@ -56,9 +67,24 @@ function makeChart(name, initial){
 
     var ctx = document.getElementById('canvas').getContext('2d');
     window[name] = new Chart(ctx, config);
+
+    window.setInterval(function(){ updateChart(name); }, 1000);
 }
 
 getNextValue = (prev) => prev * (1.0 + (Math.random() - 0.5) * 0.01);
+
+function fixDecimals(value){
+    if(value > 1000){
+        value = value.toFixed(0);
+    }else if(value > 100){
+        value = value.toFixed(2);
+    }else if(value > 1){
+        value = value.toFixed(3)
+    } else {
+        value = value.toFixed(6);
+    }
+    return value;
+}
 
 function updateChart(name){
     let d = new Date();
@@ -81,40 +107,35 @@ function updateChart(name){
 
 function populateList(coins){
     var list = document.getElementById("coin-list");
-    // insert rows based upon coins
+    
+    for(const coin in coins){
+        list.insertAdjacentHTML('beforeend', 
+        "<tr id='" + coin + "'>" +
+            "<th scope='row'></th>" +
+            "<td>" + coin + "</td>" +
+            "<td id='change'></td>" +
+            "<td id='value'>" + coins[coin] + "</td>" +
+        "</tr>");
+    }
+
+    window.setInterval(function(){ updateList(coins); }, 1000);
 }
 
 function updateList(coins){
     for (const coin in coins){
         var row = document.getElementById(coin);
-        console.log(row.childNodes.item(7).textContent)
-        var curr = parseFloat(row.childNodes.item(7).textContent);
-        var next = getNextValue(curr);
-        var diff = coins[coin] - next;
+
+        var curr = parseFloat(row.childNodes.item(3).textContent);
+        var next = fixDecimals(getNextValue(curr));
+        var diff = fixDecimals(coins[coin] - next);
         
-        if(next > 1000){
-            next = next.toFixed(0);
-        }else if(next > 10){
-            next = next.toFixed(2);
-        } else {
-            next = next.toFixed(4);
-        }
-
-        if(diff > 1000){
-            diff = diff.toFixed(0);
-        }else if(diff > 1){
-            diff = diff.toFixed(2);
-        } else {
-            diff = diff.toFixed(4);
-        }
-
-        row.childNodes.item(7).textContent = next;
+        row.childNodes.item(3).textContent = next;
 
         if (diff > 0){
-            row.childNodes.item(5).textContent = "▲ " + diff;
+            row.childNodes.item(2).textContent = "▲ " + diff;
             row.style = "color: green";
         } else {
-            row.childNodes.item(5).textContent = "▼ " + Math.abs(diff);
+            row.childNodes.item(2).textContent = "▼ " + Math.abs(diff);
             row.style = "color: red";
         }
     }
