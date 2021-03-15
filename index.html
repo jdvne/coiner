@@ -4,16 +4,16 @@
 
 <!-- 
     TODO:
-        search menu filtering
-        arrow function
         anonymous function
-        add account details to logged in page
+        event listener
     josh -
+        update prices on rows
         make page for a specific coin (coin.html)
         user account + purchases
+        sort coins
     abdullah -
-        expand search bar on selection
-        check if username is valid
+        error messages for login - username contains invalid chars
+        error messages for search - the term you have entered does not match
     end -
         add a bunch of css
         responsivity check
@@ -111,56 +111,56 @@
                   <tr id="Bitcoin" style="color: green">
                     <th scope="row"></th>
                     <td>Bitcoin</td>
-                    <td>▲ $2,337</td>
-                    <td>$49,237</td>
+                    <td id="change">▲ $2,337</td>
+                    <td id="value">49237</td>
                   </tr>
                   <tr id="Etherium" style="color: green">
                     <th scope="row" ></th>
                     <td>Etherium</td>
-                    <td>▲ $23.27</td>
-                    <td>$1,507.27</td>
+                    <td id="change">▲ $23.27</td>
+                    <td id="value">1507.27</td>
                   </tr>
                   <tr id="Dogecoin" style="color: red">
                     <th scope="row"></th>
                     <td>Dogecoin</td>
-                    <td>▼ $.005</td>
-                    <td>$.04936</td>
+                    <td id="change">▼ $.005</td>
+                    <td id="value">.04936</td>
                   </tr>
                 <tr id="Litecoin" style="color: red">
                   <th scope="row"></th>
                   <td>Litecoin</td>
-                  <td>▼ $202.81</td>
-                  <td>$20.04</td>
+                  <td id="change">▼ $202.81</td>
+                  <td id="value">20.04</td>
                 </tr>
                 <tr id="Cardano" style="color: red">
                     <th scope="row"></th>
                     <td>Cardano</td>
-                    <td>▼ $1.64532</td>
-                    <td>$.14324</td>
+                    <td id="change">▼ $1.64532</td>
+                    <td id="value">.14324</td>
                   </tr>
                 <tr id="Polkadot" style="color: green">
                     <th scope="row"></th>
                     <td>Polkadot</td>
-                    <td>▼ $38.69</td>
-                    <td>$3.37</td>
+                    <td id="change">▼ $38.69</td>
+                    <td id="value">3.37</td>
                   </tr>
                 <tr id="Bitcoin Cash" style="color: red">
                     <th scope="row"></th>
                     <td>Bitcoin Cash</td>
-                    <td>▼ $543.53</td>
-                    <td>$30.22</td>
+                    <td id="change">▼ $543.53</td>
+                    <td id="value">30.22</td>
                   </tr>
                 <tr id="Stellar" style="color: green">
                     <th scope="row"></th>
                     <td>Stellar</td>
-                    <td>▼ $.41692</td>
-                    <td>$.07352</td>
+                    <td id="change">▼ $.41692</td>
+                    <td id="value">.07352</td>
                   </tr>
                 <tr id="Chainlink" style="color: green">
                     <th scope="row"></th>
                     <td>Chainlink</td>
-                    <td>▼ $30.57</td>
-                    <td>$1.97</td>
+                    <td id="change">▼ $30.57</td>
+                    <td id="value">1.97</td>
                   </tr>
                 </tbody>
               </table>

@@ -86,20 +86,36 @@ function populateList(coins){
 
 function updateList(coins){
     for (const coin in coins){
-        var row = document.getElementById(name);
-        var curr = parseFloat(row.childNodes.item(3).textContent);
+        var row = document.getElementById(coin);
+        console.log(row.childNodes.item(7).textContent)
+        var curr = parseFloat(row.childNodes.item(7).textContent);
         var next = getNextValue(curr);
-        row.childNodes.item(3).textContent = next;
-
         var diff = coins[coin] - next;
-        row.childNodes.item(2).textContent = Math.abs(diff);
+        
+        if(next > 1000){
+            next = next.toFixed(0);
+        }else if(next > 10){
+            next = next.toFixed(2);
+        } else {
+            next = next.toFixed(4);
+        }
+
+        if(diff > 1000){
+            diff = diff.toFixed(0);
+        }else if(diff > 1){
+            diff = diff.toFixed(2);
+        } else {
+            diff = diff.toFixed(4);
+        }
+
+        row.childNodes.item(7).textContent = next;
+
         if (diff > 0){
-            row.childNodes.item(2).textContent = "▲ " + diff;
+            row.childNodes.item(5).textContent = "▲ " + diff;
             row.style = "color: green";
         } else {
-            row.childNodes.item(2).textContent = "▼ " + Math.abs(diff);
-            row.style = "color: green";
+            row.childNodes.item(5).textContent = "▼ " + Math.abs(diff);
+            row.style = "color: red";
         }
-        // color row accordingly
     }
 }
