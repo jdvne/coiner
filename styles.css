@@ -21,7 +21,7 @@
 }
 
 
-#searchbar{ 
+#the-searchbar{ 
     width: 50%;
     margin-left: 25%; 
     padding:15px; 
@@ -29,34 +29,12 @@
     margin-top: 1%;
 
   } 
-/*
-  input[type=text] { 
-     width: 30%; 
-     -webkit-transition: width 0.15s ease-in-out; 
-     transition: width 0.15s ease-in-out; 
-  } 
 
-  When the input field gets focus, 
-       change its width to 100% 
-  input[type=text]:focus { 
-    width: 50%; 
-  } */
-
- #list{ 
+#list{ 
    list-style-position: outside;
    font-size:  1.4em; 
    margin-left: 375px; 
   } 
-
-  .animals{ 
-    display: list-item;     
-   } 
-
-
-
-
-
-
 
 
 #main-search-bar{

@@ -1,14 +1,15 @@
 function search_crypto() { 
-    let input = document.getElementById('searchbar').value 
-    input=input.toLowerCase(); 
-    let x = document.getElementsByClassName('crypto'); 
-      
-    for (i = 0; i < x.length; i++) {  
-        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
-            x[i].style.display="none"; 
-        } 
-        else { 
-            x[i].style.display="list-item";                  
-        } 
+    search_entry = document.getElementById('the-searchbar').value;
+    crypto_name = document.getElementsByClassName('crypto');  
+    search_entry = search_entry.toLowerCase();   
+    for (i = 0; i < crypto_name.length; i++) {  
+        if (crypto_name[i].innerHTML.toLowerCase().includes(search_entry)) { 
+            crypto_name[i].style.display="list-item"; 
+            
+        }
+        if (!crypto_name[i].innerHTML.toLowerCase().includes(search_entry)) { 
+            crypto_name[i].style.display="none"; 
+            
+        }  
     } 
 } 

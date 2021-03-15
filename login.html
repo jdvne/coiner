@@ -22,19 +22,64 @@
     <h1><br class="no_height">LOGIN</h1>
 </header>
 
+<body>
+<body class="full_height">
+    <div class="container h-100 d-flex justify-content-center">
+        <div class="jumbotron my-auto">
+
+    <form name="myForm" method="post" onsubmit="return validateForm()" id=form_login>
+	<div class="form-group">
+		<label>E-mail Address</label> <span id="error-email"></span>
+		<input type="email" name="email" class="form-control" placeholder="email">
+	</div>
+	<div class="form-group"> 
+		<label>Password</label> <span id="error-password"></span>
+		<input type="text" name="Password" class="form-control" placeholder="Password">
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Login">
+	</div>
+    <div class="form-group">
+		<input type="submit" value="Signup">
+	</div>
+</form>
+
+<script>
+    function validateForm(){
+        var email = document.forms["myForm"]["email"].value;
+        var password = document.forms["myForm"]["Password"].value;
+    
+        if (email.length<1) {
+            document.getElementById('error-email').innerHTML = " *** Please Enter Your Email "
+        }
+        if (password.length<1) {
+            document.getElementById('error-password').innerHTML = " *** Please Enter Your Password ";
+        }         
+        if(email.length<1){
+               return false;
+        }
+        if(password.length<1){
+               return false;
+        }           
+    }
+    </script>
+    </body>
+
+<!-- 
+
 <body class="full_height">
     <div class="container h-100 d-flex justify-content-center">
         <div class="jumbotron my-auto">
             <form id="form_login">
                 <p>
-                    <input type="text" id="username" onkeyup="validUsername(username)" placeholder="username" />
+                    <input type="text" id="username" onkeyup="validUsername(username)" placeholder="username" name="username" />
                 </p>
                 <p>
-                    <input type="password" id="password" placeholder="password" />
+                    <input type="password" id="password" placeholder="password" name="password" />
                 </p>
                 <div class="row" id="login_buttons">
-                    <button id="submitbutton" type="button">Login</button>
-                    <button id="submitbutton" type="button" style="margin-left: 10px">Signup</button>
+                    <button id="submitbutton" type="submit" value="send" name="Name">Login</button>
+                    <button id="submitbutton" type="submit" value="send" name="Signup" style="margin-left: 10px">Signup</button>
                 </div>
             </form>
             
@@ -48,5 +93,10 @@
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
 
+    <script src="./login.js"></script> 
+
 </body>
+-->
+
+
 </html>
