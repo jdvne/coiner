@@ -1,23 +1,11 @@
 chartColors = {
-	red: 'rgb(255, 99, 132)',
+	red: 'rgb(128, 0, 0)',
 	orange: 'rgb(255, 159, 64)',
 	yellow: 'rgb(255, 205, 86)',
-	green: 'rgb(75, 192, 192)',
+	green: 'rgb(0, 128, 0)',
 	blue: 'rgb(54, 162, 235)',
 	purple: 'rgb(153, 102, 255)',
 	grey: 'rgb(201, 203, 207)'
-};
-
-var coins = {
-    "Bitcoin": 50000,
-    "Etherium": 1500,
-    "Dogecoin": 0.005,
-    "Litecoin": 20,
-    "Cardano": 0.15,
-    "Polkadot": 38,
-    "Bitcoin Cash": 550,
-    "Stellar": 0.42,
-    "Chainlink": 30
 };
 
 function makeChart(name, initial){
@@ -37,10 +25,6 @@ function makeChart(name, initial){
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: name
-            },
             legend: {
                 display: false,
             },
@@ -102,6 +86,16 @@ function updateChart(name){
 
             window[name].update();
         }
+
+        if(dataset.data[0] > next){
+            dataset.borderColor = "red";
+            dataset.backgroundColor = "red";
+        }else{
+            dataset.borderColor = "green";
+            dataset.backgroundColor = "green";
+        }
+
+        window[name].update();
     });
 }
 
@@ -113,8 +107,8 @@ function populateList(coins){
         "<tr id='" + coin + "'>" +
             "<th scope='row'></th>" +
             "<td>" + coin + "</td>" +
-            "<td id='change'></td>" +
             "<td id='value'>" + coins[coin] + "</td>" +
+            "<td id='change'></td>" +
         "</tr>");
     }
 
@@ -125,18 +119,36 @@ function updateList(coins){
     for (const coin in coins){
         var row = document.getElementById(coin);
 
-        var curr = parseFloat(row.childNodes.item(3).textContent);
+        var curr = parseFloat(row.childNodes.item(2).textContent);
         var next = fixDecimals(getNextValue(curr));
-        var diff = fixDecimals(coins[coin] - next);
+        var diff = fixDecimals(next - coins[coin]);
         
-        row.childNodes.item(3).textContent = next;
+        row.childNodes.item(2).textContent = next;
 
         if (diff > 0){
-            row.childNodes.item(2).textContent = "▲ " + diff;
+            row.childNodes.item(3).textContent = "▲ " + diff;
             row.style = "color: green";
         } else {
-            row.childNodes.item(2).textContent = "▼ " + Math.abs(diff);
+            row.childNodes.item(3).textContent = "▼ " + Math.abs(diff);
             row.style = "color: red";
         }
     }
+}
+
+function updateFeaturedCoin(coins, name){
+    var featured_coin = document.getElementById("featured-dc");
+
+    window[name].data.datasets.forEach(function(dataset) {
+        var curr = dataset.data[dataset.data.length - 1];
+        var diff = fixDecimals(curr - coins[name]);
+        var pct = (Math.abs(diff) / coins[name]).toFixed(1);
+
+        if (diff > 0){
+            featured_coin.textContent = "▲ " + diff + " (" + pct + "%)";
+            featured_coin.style = "color: green";
+        } else {
+            featured_coin.textContent = "▼ " + Math.abs(diff) + " (" + pct + "%)";
+            featured_coin.style = "color: red";
+        }
+    });
 }

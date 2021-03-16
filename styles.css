@@ -6,6 +6,10 @@
     height: 0px;
 }
 
+.hide{
+    display: none;
+}
+
 #form_login {
     margin: auto;
     text-align: center;
