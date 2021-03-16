@@ -73,7 +73,7 @@ function makeChart(name, initial){
 
 getNextValue = (prev) => prev * (1.0 + (Math.random() - 0.5) * 0.01);
 
-function fixDecimals(value){
+let fixDecimals = function(value){
     if(value > 1000){
         value = value.toFixed(0);
     }else if(value > 100){
