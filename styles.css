@@ -46,6 +46,11 @@
           change its width to 100% */
  }
 
+.focus-row:hover {
+    background-color: #eee;
+}
 
-
- 
+.navbar-brand:hover{
+    transform: rotateX(360deg);
+    transition-duration: 1s;
+}

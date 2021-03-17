@@ -1,9 +1,6 @@
 <!DOCTYPE html> 
 <html> 
 
-
-      
-
 <head> 
 
 <title>Coiner</title>
@@ -25,59 +22,44 @@
 </head>
 
 <body> 
+    <header>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <div style="padding-left: 3%"></div>
+            <a class="navbar-brand" type="button" onClick="parent.location='index.html'"><h1><b>₵oin<i style="color: green">er</i></b></h1></a>
 
-   
-        <header>
-            <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-                <a class="navbar-brand" href="#">My Logo Would Be Here</a>
-    
-                <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item" id="main-signup">
-                            <a class="nav-link" href="#">Signup</a>
-                        </li>
-                        <li class="nav-item" id="main-login">
-                            <a class="nav-link" href="#">Login</a> 
-                        </li>
-                        <li class="nav-item">
-                            <form class="form-inline">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>                                
-                            </form>
-                            
-                </div>
-            </nav>
-        </header>
+            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="main-signup">
+                        <a class="nav-link" type="button" onClick="parent.location='login.html'" value='click here' href="#">Sign Up</a>
+                    </li>
+                    <li class="nav-item" id="main-login">
+                        <a class="nav-link" type="button" onClick="parent.location='login.html'" value='click here' href="#">Login</a> 
+                    </li>
+                    <li class="nav-item">
+                        <form class="form-inline">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Explore Coins</button>                                
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
       
     
-    <input id="the-searchbar" onkeyup="search_crypto()" type="text"
-        name="search" placeholder="Search cryptocurrency..."> 
+    <input id="the-searchbar" onkeyup="searchCoins()" type="text"
+        name="search" placeholder="Search coins..."> 
       
     <!-- The current list of available cryptos-->
-    <ul id='list'> 
-        <ul type = "circle">        
-        <li class="crypto">Bitcoin</li> 
-        <br/>
-        <li class="crypto">Bitcoing Cash</li> 
-        <br/>
-        <li class="crypto">Cardano</li> 
-        <br/>
-        <li class="crypto">Chainlink</li> 
-        <br/>
-        <li class="crypto">Dogecoin</li> 
-        <br/>
-        <li class="crypto">Etherium</li> 
-        <br/>
-        <li class="crypto">Litecoin</li> 
-        <br/>
-        <li class="crypto">Polkadot</li> 
-        <br/>
-        <li class="crypto">Stellar</li> 
-        <br/>
-    </ul> 
+    <ul id='list'>
+        <ul id="coin-list" type="circle"><br/></ul>
+    </ul>
       
-    
-    <script src="./search.js"></script> 
-</body> 
-  
+    <script src="search.js"></script>
+    <script>
+        var coins = ["Bitcoin", "Bitcoin Cash", "Cardano", "Chainlink", "Dogecoin", "Etherium", "Litecoin", "Polkadot", "Stellar"];
+        
+        makeSearchList(coins);
+    </script>
+</body>
 
 </html> 
