@@ -29,7 +29,6 @@ getNextValue = (prev) => prev * (1.0 + (Math.random() - 0.5) * 0.01);
 function updateCoinValues(coins){
     coins.forEach(function(coin){
         current_value[coin] = getNextValue(current_value[coin]);
-        console.log(current_value[coin]);
     });
 }
 
@@ -144,11 +143,11 @@ function makeList(coins){
     
     coins.forEach(function(coin){
         list.insertAdjacentHTML('beforeend', 
-        "<tr id='" + coin + "' class='focus-row'>" +
-            "<th scope='row'></th>" +
+        "<tr id='" + coin + "' class='focus-row clickable' onClick='parent.location=\"bitcoin.html\"'>" +
+            "<td></td>" +
             "<td>" + coin + "</td>" +
-            "<td id='value'>" + initial_value[coin] + "</td>" +
-            "<td id='change'></td>" +
+            "<td>" + initial_value[coin] + "</td>" +
+            "<td>" + "▲ 0" + "</td>" +
         "</tr>");
     });
 }

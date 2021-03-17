@@ -10,6 +10,19 @@
     display: none;
 }
 
+.clickable{
+    cursor: pointer;
+}
+
+.focus-row:hover {
+    background-color: #eee;
+}
+
+.navbar-brand:hover{
+    transform: rotateX(360deg);
+    transition-duration: 1s;
+}
+
 #form_login {
     margin: auto;
     text-align: center;
@@ -24,33 +37,21 @@
     justify-content: center;
 }
 
-#the-searchbar{ 
+#main-search-bar{ 
     width: 50%;
     margin-left: 25%; 
     padding:15px; 
     border-radius: 10px; 
     margin-top: 1%;
+}
 
-  } 
+.search-list{
+    width: 60%;
+}
 
 #list{ 
    list-style-position: outside;
    font-size:  1.4em; 
    margin-left: 375px; 
-  } 
+} 
 
-
-#main-search-bar{
-    border-radius: 50px; 
-     /* When the input field gets focus, 
-          change its width to 100% */
- }
-
-.focus-row:hover {
-    background-color: #eee;
-}
-
-.navbar-brand:hover{
-    transform: rotateX(360deg);
-    transition-duration: 1s;
-}

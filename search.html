@@ -27,7 +27,7 @@
             <div style="padding-left: 3%"></div>
             <a class="navbar-brand" type="button" onClick="parent.location='index.html'"><h1><b>₵oin<i style="color: green">er</i></b></h1></a>
 
-            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+            <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="main-signup">
                         <a class="nav-link" type="button" onClick="parent.location='login.html'" value='click here' href="#">Sign Up</a>
@@ -46,15 +46,15 @@
     </header>
       
     
-    <input id="the-searchbar" onkeyup="searchCoins()" type="text"
-        name="search" placeholder="Search coins..."> 
-      
+    <input id="main-search-bar" onkeyup="searchCoins()" type="text" name="search" placeholder="Search coins...">
+    
     <!-- The current list of available cryptos-->
-    <ul id='list'>
-        <ul id="coin-list" type="circle"><br/></ul>
-    </ul>
-      
-    <script src="search.js"></script>
+    <div class="container search-list">
+        <ul class='table table-responsive'>
+            <ul id="coin-list" type="circle"><br/></ul>
+        </ul>
+    </div>
+    
     <script>
         var coins = ["Bitcoin", "Bitcoin Cash", "Cardano", "Chainlink", "Dogecoin", "Etherium", "Litecoin", "Polkadot", "Stellar"];
         

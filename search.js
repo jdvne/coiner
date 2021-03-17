@@ -3,13 +3,13 @@ function makeSearchList(coins){
     
     coins.forEach(function(coin){
         list.insertAdjacentHTML('beforeend',
-        "<li class='crypto'>" + coin + "<br/><br/></li>");
+        "<li class='crypto clickable' onClick='parent.location=\"bitcoin.html\"'>" + coin + "<br/><br/></li>");
     });
 }
 
 /* Code based on https://www.geeksforgeeks.org/search-bar-using-html-css-and-javascript/*/ 
 function searchCoins() {
-    search_entry = document.getElementById('the-searchbar').value;
+    search_entry = document.getElementById('main-search-bar').value;
     crypto_name = document.getElementsByClassName('crypto');
     search_entry = search_entry.toLowerCase();
 
