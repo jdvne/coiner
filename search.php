@@ -22,29 +22,7 @@
 </head>
 
 <body> 
-    <header>
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-            <div style="padding-left: 3%"></div>
-            <a class="navbar-brand" type="button" onClick="parent.location='index.html'"><h1><b>₵oin<i style="color: green">er</i></b></h1></a>
-
-            <div class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav">
-                    <li class="nav-item" id="main-signup">
-                        <a class="nav-link" type="button" onClick="parent.location='login.html'" value='click here' href="#">Sign Up</a>
-                    </li>
-                    <li class="nav-item" id="main-login">
-                        <a class="nav-link" type="button" onClick="parent.location='login.html'" value='click here' href="#">Login</a> 
-                    </li>
-                    <li class="nav-item">
-                        <form class="form-inline">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Explore Coins</button>                                
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-      
+    <?php include("header.php") ?>  
     
     <input id="main-search-bar" onkeyup="searchCoins()" type="text" name="search" placeholder="Search coins...">
     
@@ -60,6 +38,8 @@
         
         makeSearchList(coins);
     </script>
+
+    <?php include("footer.php") ?>
 </body>
 
 </html> 
