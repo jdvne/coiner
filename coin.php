@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <button type="button" class="btn btn-secondary" style="margin-left:5px; width:33%">Purchase</button>
+                    <button type="submit" name="btnaction" value="buy" class="btn btn-secondary" style="margin-left:5px; width:33%">Purchase</button>
                 </div>
             </div>
             <br>
@@ -114,9 +114,40 @@
     <?php
     function buyCoin(){
         // get cost to purchase specified amount of coin
+        $cost = 20;
+        $amount = 55.533;
+        $user = "josh";
         // check that cost < USD balance
-            // error if insufficient funds
+        global $db;
+
+        $query = "SELECT * FROM wallets WHERE username = :username";
+        $statement = $db->prepare($query);
+        $statement->bindValue('username', $user);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+
+        $balance = $results[0]["balance"];
+        $bitcoin = $results[0]["Bitcoin"];
+        echo $balance . " " .  $bitcoin;
+
+        // error if insufficient funds
+        if ($balance < $cost) {
+            echo "ERROR: insufficient funds";
+            return;
+        }
+
         // update user row with USD balance - cost and coin balance + amount
+        $query = "UPDATE wallets 
+                SET balance = balance - :cost, 
+                bitcoin = bitcoin + :amount 
+                WHERE username = :username";
+        $statement = $db->prepare($query);
+        $statement->bindValue('username', $user);
+        $statement->bindValue('cost', $cost);
+        $statement->bindValue('amount', $amount);
+        $statement->execute();
+        $statement->closeCursor();
     }
 
     function sellCoin(){
