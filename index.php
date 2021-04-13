@@ -11,65 +11,115 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="res/styles.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script><param name="" value="">
-    <script src="search.js"></script>
-    <script src="coins.js"></script>
 
 </head>
 
 <body>
-    <?php include("header.php") ?>
+    <?php require("header.php") ?>
     
-    <div class="jumbotron">
-        <div class="container">
-          <h1>Start Investing in Crypto Today!</h1>
-          <p class="text-center">Featured Coin: <b><i>Bitcoin</i></b> - Daily Change: <span id="featured-dc"></span></p>
-          <div>
-                <canvas id="canvas" height="400"></canvas>
+    <?php if (!isset($_SESSION['user'])) { //// NOT LOGGED IN?>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Start Investing in Crypto Today!</h1>
+                <p class="text-center">Featured Coin: <b><i>Bitcoin</i></b> - Daily Change: <span id="featured-dc"></span></p>
+                <div>
+                    <canvas id="canvas" height="400"></canvas>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="row">
-            <h4>Coins We Offer</h4>
-            <br>
-            <br>
+        <div class="container">
+            <div class="row">
+                <h4>Coins We Offer</h4>
+                <br>
+                <br>
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width: 4%"></th>
+                        <th scope="col" style="width: 32%">Crypto</th>
+                        <th scope="col" style="width: 32%">Current Price (USD)</th>
+                        <th scope="col" style="width: 32%">Price Change</th>
+                    </tr>
+                    </thead>
+                    <tbody id="coin-list"></tbody>
+                </table>
+            </div>
         </div>
-        <div class="row">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col" style="width: 4%"></th>
-                    <th scope="col" style="width: 32%">Crypto</th>
-                    <th scope="col" style="width: 32%">Current Price (USD)</th>
-                    <th scope="col" style="width: 32%">Price Change</th>
-                  </tr>
-                </thead>
-                <tbody id="coin-list"></tbody>
-            </table>
+
+        <script>
+        var coins = ["Bitcoin", "Etherium", "Dogecoin", "Litecoin", "Cardano", "Polkadot", "Bitcoin Cash", "Stellar", "Chainlink"];
+        var featured = "Bitcoin";
+
+        makeChart(featured);
+        makeList(coins);
+
+        window.setInterval(function(){
+            updateCoinValues(coins);
+            updateFeaturedCoin(featured);
+            updateChart(featured);
+            updateList(coins);
+            }, 1000);
+        </script>
+
+    <?php } else { require("connect-db.php"); loadWallet(); //// LOGGED IN ?>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>My Portfolio</h1>
+                <p class="text-center">Daily Change: <span id="featured-dc"></span></p>
+                <div>
+                    <canvas id="canvas" height="400"></canvas>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <script>
-      var coins = ["Bitcoin", "Etherium", "Dogecoin", "Litecoin", "Cardano", "Polkadot", "Bitcoin Cash", "Stellar", "Chainlink"];
-      var featured = "Bitcoin";
+        <div class="container">
+            <div class="row">
+                <h4>My Coin Hodlings</h4>
+                <br>
+                <br>
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Crypto</th>
+                        <th scope="col">Price Change</th>
+                        <th scope="col">Current Price</th>
+                    </tr>
+                    </thead>
+                    <tbody id="coin-list">
+                    <script src="coins.js"></script>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-      makeChart(featured);
-      makeList(coins);
+        <script>
+            var coins = ["Bitcoin", "Etherium", "Dogecoin"];
+            var featured = "My Portfolio";
+            var toUpdate = coins.concat(featured);
 
-      window.setInterval(function(){ 
-          updateCoinValues(coins);
-          updateFeaturedCoin(featured);
-          updateChart(featured);
-          updateList(coins);
-        }, 1000);
-    </script>
+            makeChart(featured);
+            makeList(coins);
+
+            window.setInterval(function(){
+                updateCoinValues(toUpdate);
+                updateFeaturedCoin(featured);
+                updateChart(featured);
+                updateList(coins);
+            }, 1000);
+        </script>
+    <?php } ?>
 
     <?php include("footer.php") ?>
 
-</body>
 
+</body>
 </html>

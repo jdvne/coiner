@@ -12,17 +12,16 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="res/styles.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script><param name="" value="">
-    <script src="search.js"></script>
-    <script src="coins.js"></script>
+    <script src="res/search.js"></script>
+    <script src="res/coins.js"></script>
 
 </head>
 
 <body>
     <?php include("header.php") ?>
-    <?php require('connect-db.php') ?>
 
     <div class="jumbotron">
         <div class="container">
@@ -34,65 +33,80 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <h4>Purchase Bitcoin</h4>
-            </div>
-            <div class="col-9">
-                - Your account balance (USD): 1203.56
-            </div>
-            <br>
-            <br>
-        </div>
-        <form class="form" action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
-            <label for="coinAmount">Amount</label>
+    <?php if (isset($_SESSION['user'])) { require('connect-db.php'); loadWallet(); //// LOGGED IN?>
+        <div class="container">
             <div class="row">
-                <div class="col-8">
-                    <input type="number" class="form-control" id="coinAmount" placeholder="0.00" value="" required></input>
-                    <div class="invalid-feedback">
-                        Valid coin amount is required.
+                <div class="col-3">
+                    <h4>Purchase Bitcoin</h4>
+                </div>
+                <div class="col-9">
+                    - Your account balance (USD): <?php echo $_SESSION["wallet"]['balance']; ?>
+                </div>
+                <br>
+                <br>
+            </div>
+            <form class="form" action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
+                <label for="coinAmount">Amount</label>
+                <div class="row">
+                    <div class="col-8">
+                        <input type="number" class="form-control" id="coinAmount" placeholder="0.00" value="" required></input>
+                        <div class="invalid-feedback">
+                            Valid coin amount is required.
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" name="btnaction" value="buy" class="btn btn-secondary" style="margin-left:5px; width:33%">Purchase</button>
                     </div>
                 </div>
-                <div class="col-4">
-                    <button type="submit" name="btnaction" value="buy" class="btn btn-secondary" style="margin-left:5px; width:33%">Purchase</button>
-                </div>
-            </div>
-            <br>
-            <br>
-        </form>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <h4>Sell Bitcoin</h4>
-            </div>
-            <div class="col-9">
-                - Your account balance (BTC): 0.2356
-            </div>
-            <br>
-            <br>
+                <br>
+                <br>
+            </form>
         </div>
-        <form class="form">
-            <label for="coinAmount">Amount</label>
+
+        <div class="container">
             <div class="row">
-                <div class="col-8">
-                    <input type="number" class="form-control" id="coinAmount" placeholder="0.00" value="" required></input>
-                    <div class="invalid-feedback">
-                        Valid coin amount is required.
+                <div class="col-3">
+                    <h4>Sell Bitcoin</h4>
+                </div>
+                <div class="col-9">
+                    - Your account balance (BTC): <?php echo $_SESSION["wallet"]['Bitcoin']; ?>
+                </div>
+                <br>
+                <br>
+            </div>
+            <form class="form">
+                <label for="coinAmount">Amount</label>
+                <div class="row">
+                    <div class="col-8">
+                        <input type="number" class="form-control" id="coinAmount" placeholder="0.00" value="" required></input>
+                        <div class="invalid-feedback">
+                            Valid coin amount is required.
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-secondary" style="margin-left:5px; width:33%">Sell</button>
                     </div>
                 </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-secondary" style="margin-left:5px; width:33%">Sell</button>
-                </div>
-            </div>
-            <br>
-            <br>
-        </form>
-    </div>
+                <br>
+                <br>
+            </form>
+        </div>
+        <script>
+            var coins = ["Bitcoin"];
+            var featured = "Bitcoin";
 
-    <?php 
+            makeChart(featured);
+
+            window.setInterval(function(){ 
+            updateCoinValues(coins);
+            updateFeaturedCoin(featured);
+            updateChart(featured);
+            }, 1000);
+        </script>
+
+    <?php } ?>
+
+    <?php
     if (isset($_GET['btnaction']))
     {	
         try 
@@ -112,64 +126,49 @@
     ?>
 
     <?php
+
     function buyCoin(){
         // get cost to purchase specified amount of coin
         $cost = 20;
         $amount = 55.533;
-        $user = "josh";
+
+        loadWallet();
+
         // check that cost < USD balance
-        global $db;
-
-        $query = "SELECT * FROM wallets WHERE username = :username";
-        $statement = $db->prepare($query);
-        $statement->bindValue('username', $user);
-        $statement->execute();
-        $results = $statement->fetchAll();
-        $statement->closeCursor();
-
-        $balance = $results[0]["balance"];
-        $bitcoin = $results[0]["Bitcoin"];
-        echo $balance . " " .  $bitcoin;
-
         // error if insufficient funds
-        if ($balance < $cost) {
+        if ($_SESSION["wallet"]["balance"] < $cost) {
             echo "ERROR: insufficient funds";
             return;
         }
 
-        // update user row with USD balance - cost and coin balance + amount
-        $query = "UPDATE wallets 
-                SET balance = balance - :cost, 
-                bitcoin = bitcoin + :amount 
-                WHERE username = :username";
-        $statement = $db->prepare($query);
-        $statement->bindValue('username', $user);
-        $statement->bindValue('cost', $cost);
-        $statement->bindValue('amount', $amount);
-        $statement->execute();
-        $statement->closeCursor();
+        // update wallet values
+        $_SESSION["wallet"]["balance"] -= $cost;
+        $_SESSION["wallet"]["Bitcoin"] += $amount;
+
+        updateWallet();
     }
 
     function sellCoin(){
         // get amount owned
+        $cost = 20;
+        $amount = 55.533;
+
+        loadWallet();
+
         // check that amount owned > amount specified
-            // error if insufficient coin funds
-        // get total sale amount
-        // update user row with USD balance + sale amount and coin balance - amount
+        // error if insufficient coin funds
+        if($_SESSION['wallet']["Bitcoin"] < $amount) {
+            echo "ERROR: insufficient coins";
+            return;
+        }
+
+        // update wallet values
+        $_SESSION["wallet"]["balance"] += $cost;
+        $_SESSION["wallet"]["Bitcoin"] -= $amount;
+
+        updateWallet();
     }
     ?>
-
-    <script>
-        var coins = ["Bitcoin"];
-        var featured = "Bitcoin";
-
-        makeChart(featured);
-
-        window.setInterval(function(){ 
-          updateCoinValues(coins);
-          updateFeaturedCoin(featured);
-          updateChart(featured);
-        }, 1000);    </script>
 
     <?php include("footer.php") ?>
 

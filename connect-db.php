@@ -46,8 +46,6 @@ try
 //  $db = new PDO("mysql:host=$hostname;dbname=$dbname, $username, $password);
    $db = new PDO($dsn, $username, $password);
    
-   // dispaly a message to let us know that we are connected to the database 
-   echo "<p>You are connected to the database</p>";
 }
 catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {
@@ -62,4 +60,44 @@ catch (Exception $e)       // handle any type of exception
    echo "<p>Error message: $error_message </p>";
 }
 
+function loadWallet(){
+   global $db;
+   $query = "SELECT * FROM wallets WHERE username = :user";
+   $statement = $db->prepare($query);
+   $statement->bindValue('user', $_SESSION["user"]);
+   $statement->execute();
+   $results = $statement->fetchAll();
+   $statement->closeCursor();
+
+   $_SESSION['wallet'] = $results[0];
+}
+
+function updateWallet(){
+   global $db;
+   $query = "UPDATE wallets
+            SET balance = :balance,
+            Bitcoin = :bitcoin,
+            Etherium = :etherium,
+            Dogecoin = :dogecoin,
+            Litecoin = :litecoin,
+            Cardano = :cardano,
+            Stellar = :stellar,
+            Chainlink = :chainlink,
+            Polkadot = :polkadot
+            WHERE username = :username";
+
+   $statement = $db->prepare($query);
+   $statement->bindValue('username', $_SESSION['user']);
+   $statement->bindValue('balance', $_SESSION['wallet']['balance']);
+   $statement->bindValue('bitcoin', $_SESSION['wallet']['Bitcoin']);
+   $statement->bindValue('etherium', $_SESSION['wallet']['Etherium']);
+   $statement->bindValue('dogecoin', $_SESSION['wallet']['Dogecoin']);
+   $statement->bindValue('litecoin', $_SESSION['wallet']['Litecoin']);
+   $statement->bindValue('cardano', $_SESSION['wallet']['Cardano']);
+   $statement->bindValue('stellar', $_SESSION['wallet']['Stellar']);
+   $statement->bindValue('chainlink', $_SESSION['wallet']['Chainlink']);
+   $statement->bindValue('polkadot', $_SESSION['wallet']['Polkadot']);
+   $statement->execute();
+   $statement->closeCursor();
+}
 ?>
