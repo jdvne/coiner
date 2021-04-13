@@ -41,26 +41,24 @@ $db = "";
 
 
 /** connect to the database **/
-try 
-{
-//  $db = new PDO("mysql:host=$hostname;dbname=$dbname, $username, $password);
+try {
+   //  $db = new PDO("mysql:host=$hostname;dbname=$dbname, $username, $password);
    $db = new PDO($dsn, $username, $password);
-   
-}
-catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
+} catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {
    // Call a method from any object, use the object's name followed by -> and then method's name
    // All exception objects provide a getMessage() method that returns the error message 
-   $error_message = $e->getMessage();        
+   $error_message = $e->getMessage();
    echo "<p>An error occurred while connecting to the database: $error_message </p>";
-}
-catch (Exception $e)       // handle any type of exception
+} catch (Exception $e)       // handle any type of exception
 {
    $error_message = $e->getMessage();
    echo "<p>Error message: $error_message </p>";
 }
 
-function loadWallet(){
+// load user's wallet into session variables
+function loadWallet()
+{
    global $db;
    $query = "SELECT * FROM wallets WHERE username = :user";
    $statement = $db->prepare($query);
@@ -72,7 +70,9 @@ function loadWallet(){
    $_SESSION['wallet'] = $results[0];
 }
 
-function updateWallet(){
+// update user's wallet in session variables
+function updateWallet()
+{
    global $db;
    $query = "UPDATE wallets
             SET balance = :balance,
@@ -100,4 +100,3 @@ function updateWallet(){
    $statement->execute();
    $statement->closeCursor();
 }
-?>

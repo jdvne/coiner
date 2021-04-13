@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html class="full_height">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Joshua Devine and Abdullah Chaudry">
-    <meta name="description" content="Let Coiner handle all your Cryptocurrency needs">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="author" content="Joshua Devine and Abdullah Chaudry">
+   <meta name="description" content="Let Coiner handle all your Cryptocurrency needs">
 
-    <title>Log In to Coiner</title>
+   <title>Log In to Coiner</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="res/styles.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+   <link rel="stylesheet" href="res/styles.css" />
 
 </head>
 
 <header id="login_header" class="no_height">
-    <h1><br class="no_height">LOG<i style="color: green">IN</i></h1>
+   <?php if (isset($_GET['reject'])) echo "<div class='alert alert-warning'>" . $_GET['reject'] . "</div>"; ?>
+   <h1><?php if (!isset($_GET['reject'])) { ?>
+         <br class="no_height" />
+      <?php } ?>
+      LOG<i style="color: green">IN</i></h1>
 </header>
 
 <?php session_start(); ?>
@@ -27,11 +31,11 @@
             <div class="form-group">
                <div class="form-group">
                   <label>E-Mail Address: </label>
-                  <input type="username" name="username" class="form-control" placeholder="email" autofocus required /> <br/>
+                  <input type="username" name="username" class="form-control" placeholder="email" autofocus required /> <br />
                </div>
                <div class="form-group">
                   <label>Password:</label>
-                  <input type="password" name="pwd" class="form-control" required /> <br/>
+                  <input type="password" name="pwd" class="form-control" required /> <br />
                </div>
             </div>
             <div class="form-group">
@@ -40,36 +44,36 @@
                      <input class="btn btn-outline-success" type="submit" value="Login" style="width: 100%" />
                   </div>
                   <div class="col-6">
-                     <input class="btn btn-outline-success" type="submit" value="Signup" style="width: 100%" />     
+                     <input class="btn btn-outline-success" type="submit" value="Signup" style="width: 100%" />
                   </div>
                </div>
             </div>
          </form>
       </div>
-  </div>
+   </div>
 </body>
 
 <?php require("connect-db.php") ?>
 
 <?php
-// Define a function to handle failed validation attempts 
-function reject($entry)
+
+// handle failed validation attempts 
+function reject($reason)
 {
-   echo 'rejected due to: ' . $entry . "<br/>";
+   header("Location: login.php?reject=" . $reason);
    exit();    // exit the current script, no value is returned
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) && strlen($_POST['pwd']))
-{
+// handle login requests
+if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) && strlen($_POST['pwd'])) {
    $user = trim($_POST['username']);
    $pass = $_POST['pwd'];
-		
-   if (!ctype_alnum($pass))
-      reject('Password');
-      
-   // validation
-   global $db;
 
+   if (!ctype_alnum($pass))
+      reject("Password contains non-alphanumeric characters.");
+
+   // get username + hashed password from database
+   global $db;
    $query = "SELECT username, password FROM wallets WHERE username = :username";
    $statement = $db->prepare($query);
    $statement->bindValue('username', $user);
@@ -78,20 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) && strlen
    $statement->closeCursor();
 
    if (!count($results))
-      reject('User Name');
+      reject('E-Mail is not registered.');
 
-   // $hash_pwd = password_hash($pwd, PASSWORD_DEFAULT);
-   // $hash_pwd = password_hash($pwd, PASSWORD_BCRYPT);
    if (md5($pass) != $results[0]["password"])
-      reject('Password');
-   
+      reject('Password is incorrect.');
+
    // set session attributes
    $_SESSION['user'] = $user;
    $_SESSION['pwd'] = $hash_pwd;
-   
-   // redirect the browser to another page using the header() function to specify the target URL
-   header('Location: index.php');
 
+   header('Location: index.php');
 }
 ?>
 

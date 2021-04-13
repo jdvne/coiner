@@ -3,7 +3,7 @@ function makeSearchList(coins){
     
     coins.forEach(function(coin){
         list.insertAdjacentHTML('beforeend',
-        "<li class='crypto clickable' onClick='parent.location=\"bitcoin.html\"'>" + coin + "<br/><br/></li>");
+        "<li class='crypto clickable' onClick='parent.location=\"coin.php?c=" + coin + "\"'>" + coin + "<br/><br/></li>");
     });
 }
 

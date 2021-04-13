@@ -6,7 +6,6 @@ var initial_value = {
     "Litecoin": 20,
     "Cardano": 0.15,
     "Polkadot": 38,
-    "Bitcoin Cash": 550,
     "Stellar": 0.42,
     "Chainlink": 30
 };
@@ -19,7 +18,6 @@ var current_value = {
     "Litecoin": 20,
     "Cardano": 0.15,
     "Polkadot": 38,
-    "Bitcoin Cash": 550,
     "Stellar": 0.42,
     "Chainlink": 30
 }
@@ -143,7 +141,7 @@ function makeList(coins){
     
     coins.forEach(function(coin){
         list.insertAdjacentHTML('beforeend', 
-        "<tr id='" + coin + "' class='focus-row clickable' onClick='parent.location=\"bitcoin.html\"'>" +
+        "<tr id='" + coin + "' class='focus-row clickable' onClick='parent.location=\"coin.php?c=" + coin + "\"'>" +
             "<td></td>" +
             "<td>" + coin + "</td>" +
             "<td>" + initial_value[coin] + "</td>" +
