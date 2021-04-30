@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<!-- move head to header.php ? -->
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Joshua Devine and Abdullah Chaudry">
@@ -13,7 +14,6 @@
     <link rel="stylesheet" href="res/styles.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <param name="" value="">
     <script src="res/coins.js"></script>
 </head>
 
