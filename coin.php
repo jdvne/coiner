@@ -74,7 +74,7 @@
                     <h4>Sell <?php echo $_GET['c']; ?></h4>
                 </div>
                 <div class="col-9">
-                    - Your <?php echo $_GET['c']; ?> balance: <?php echo $_SESSION["wallet"]['Bitcoin']; ?>
+                    - Your <?php echo $_GET['c']; ?> balance: <?php echo $_SESSION["wallet"][$_GET['c']]; ?>
                 </div>
                 <br>
                 <br>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <button type="button" name="transact" value="sell" class="btn btn-secondary" style="margin-left:5px; width:33%">Sell</button>
+                        <button type="submit" name="transact" value="sell" class="btn btn-secondary" style="margin-left:5px; width:33%">Sell</button>
                     </div>
                 </div>
                 <br>
