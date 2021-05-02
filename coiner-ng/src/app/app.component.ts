@@ -13,10 +13,9 @@ export class AppComponent {
   // dependency injection
   constructor(private http: HttpClient) { }
 
-  title = 'Angular - backend, Service';
+  title = 'Contact Us';
+  subtitle = "Please Enter Your Contact Information Below";
   author = 'your name';
-
-  drinks = ['Coffee', 'Tea', 'Milk'];
 
   confirm_msg = '';
   data_submitted = '';
@@ -24,7 +23,7 @@ export class AppComponent {
 
   /* create an instance of an Order, assuming there is an existent order */
   /* we will bind orderModel to the form, allowing an update / delete transaction */
-  orderModel = new Order('duh', 'duh@uva.edu', 1112223333, '', '', true);
+  orderModel = new Order('student', 'student@uva.edu', 1234567891, 'question?', true);
   /* orderModel = new Order('', '', null, '', '', null); */
 
 
@@ -34,7 +33,7 @@ export class AppComponent {
      this.confirm_msg += '. You ordered ' + data.drink_option;
   }
 
-  responsedata = new Order("", "", null, "", "", null);
+  responsedata = new Order("", "", null, "", null);
 
   // passing in a form variable of type any, no return result
   onSubmit(form: any): void {
