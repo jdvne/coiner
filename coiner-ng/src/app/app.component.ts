@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Order } from './order';
+import { Message } from './message';
 
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { MessageService } from "./message.service";
 
 @Component({
   selector: 'app-root',
@@ -11,34 +11,34 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 export class AppComponent {
 
   // dependency injection
-  constructor(private http: HttpClient) { }
+  constructor(private messageService: MessageService) { }
 
   title = 'Contact Us';
-  subtitle = "Please enter your contact information below";
 
   confirm_msg = '';
   data_submitted = '';
+  submitted = false;
 
   /* create an instance of an Order, assuming there is an existent order */
-  orderModel = new Order('', '', '', '', false);
+  messageModel = new Message('Joshua Devine', 'jdd9kr@virginia.edu', 'Subject', 'Message', false);
 
-  confirmOrder(data: any): void {
-     console.log(data);
-     this.confirm_msg = 'Thank you, ' + data.name + '(' + data.name.length + ')';
-     this.confirm_msg += '. You ordered ' + data.drink_option;
+  confirmMessage(data: any): void {
+     this.confirm_msg = 'Thank you for reaching out';
+     if (!data.anonymous) this.confirm_msg += ", " + data.name;
   }
 
-  responsedata = new Order("", "", "", "", false);
+  responsedata = new Message("", "", "", "", false);
 
   // function for form submission to php backend
   onSubmit(form: any): void {
     this.data_submitted = form;
+    this.submitted = true;
 
     // convert the form data to JSON format
     let params = JSON.stringify(form);
 
      // send an HTTP POST request to the backend
-     this.http.post<Order>('http://localhost/coiner/ng-post.php', params)
+     this.messageService.processMessage(params)
         .subscribe((response_from_php) => {
             // set local variable on php response
             this.responsedata = response_from_php;

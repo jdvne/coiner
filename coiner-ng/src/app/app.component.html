@@ -1,107 +1,95 @@
-<div class="container">
-  <br/>
-  <h1>{{ title }}</h1>
-  <br/>
-  <h3>{{ subtitle }} </h3>
-  <h6> We will reach out shortly to follow up via email.</h6>
-  <br/>
+ <div>
+  <!-- if not submitted, show form -->
+  <div class="container" *ngIf="!submitted">
+    <br/>
+    <h1>{{ title }}</h1>
+    <br/>
+    <h3> Please enter your contact information below </h3>
+    <h6> We will reach out shortly to follow up via email.</h6>
+    <br/>
 
-  <!-- add a template reference variable named orderForm to this form tag,
-   and assign ngForm directive to it.
-   A directive allows us to access the values of the form control -->
-  <form #orderForm="ngForm" (ngSubmit)="onSubmit(orderForm.value)">
+    <!-- add a template reference variable named orderForm to this form tag,
+    and assign ngForm directive to it.
+    A directive allows us to access the values of the form control -->
+    <form #messageForm="ngForm" (ngSubmit)="onSubmit(messageForm.value)">
 
-     <!-- let's see what are in the form controls -->
-     <!--{{ orderForm.value | json }}-->
+      <!-- let's add a template reference called name to the name input -->
+      <div class="form-group">
+        <label>Full Name: </label>
+        <input type="text"
+            required minlength="8"
+            #name="ngModel"
+            [class.is-invalid]="(name.invalid && name.touched)"
+            class="form-control is-invalid" [(ngModel)]="messageModel.name"
+            name="name">   <!-- note: we don't use autofocus here. Why? -->
+        <small class="text-danger" [class.d-none]="name.valid || name.untouched">
+          Name is required and must be at least 8 characters.
+        </small>
+      </div>
 
-     <!-- let's bind orderModel to form, this is to help us understand data binding -->
-     <!-- {{ orderModel | json }} -->
+      <div class="form-group">
+        <label>Email Address: </label>
+        <input type="email" class="form-control" required
+              #email="ngModel"
+              pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+              [class.is-invalid]="email.invalid && email.touched"
+              [(ngModel)]="messageModel.email" name="email">
+        <small class="text-danger" [class.d-none]="email.valid || email.untouched">Email is required and must be in proper format</small>
+      </div>
 
-     <!-- to use angular for input validation, make use of pre-built classes -->
-     <!-- refer to angular doc
-          at anytime, angular applies 3 classes based on state of the form control.
-            ng-touched     this class is applied (true) when the control has been visited
-            ng-untouched   false when the control has not been visited
-            ng-dirty       true when the control's value has cchanged
-            ng-pristine    false when the control's value has changed
-            ng-valid       true when the control's value is valid
-            ng-invalid     false when the control's value is valid
-     -->
+      <div class="form-group">
+        <label>Subject: </label>
+        <input type="text" class="form-control" required
+              #subject="ngModel"
+              [(ngModel)]="messageModel.subject" name="subject">
+      </div>
 
-     <!-- let's add a template reference called name to the name input -->
-     <div class="form-group">
-      <label>Full Name: </label>
-      <input type="text"
-           required minlength="8"
-           #name="ngModel"
-           [class.is-invalid]="(name.invalid && name.touched)"
-           class="form-control is-invalid" [(ngModel)]="orderModel.name"
-           name="name">   <!-- note: we don't use autofocus here. Why? -->
-      <small class="text-danger" [class.d-none]="name.valid || name.untouched">
-        Name is required and must be at least 8 characters.
-      </small>
+
+      <div class="form-group">
+        <label>Message: </label>
+        <textarea type="text" class="form-control" required
+              #message="ngModel"
+              [(ngModel)]="messageModel.message" name="message"></textarea>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="messageModel.anonymous" name="anonymous">
+        <label class="form-check-label">I would like to remain anonymous. </label>
+      </div>
+
+      <button class="btn btn-primary" type="submit"
+            [disabled]="!messageForm.form.valid"
+            (click)="confirmMessage(messageForm.value)"
+            title="always enabled">
+        Submit
+      </button>
+
+    </form>
+    <br/>
+    <br/>
+
+  </div>
+
+  <!-- if submitted, show confirmation -->
+  <div class="container" *ngIf="submitted">
+    <h2>Message Confirmation</h2>
+
+    <!-- ngif here and check for anonymous? -->
+    <h4>{{ confirm_msg }} </h4>
+    <br/>
+    <!-- Email Address: <i>{{ messageForm.value.email }}</i>
+    <br/>
+    Subject: <i>{{ messageForm.value.subject }}</i>
+    <br/>
+    Message: <i> {{ messageForm.value.message }} </i>  -->
+    <br/>
+    <br/>
+
+    <p>Response from PHP: {{ responsedata | json }} </p>
+    <div class="text-center">
+      <a href="http://localhost/coiner" class="btn btn-primary">⮱Return to Coiner</a>
     </div>
-
-    <div class="form-group">
-      <label>Email Address: </label>
-      <input type="email" class="form-control" required
-             #email="ngModel"
-             pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-             [class.is-invalid]="email.invalid && email.touched"
-             [(ngModel)]="orderModel.email" name="email">
-      <small class="text-danger" [class.d-none]="email.valid || email.untouched">Email is required and must be in proper format</small>
-    </div>
-
-    <div class="form-group">
-      <label>Subject: </label>
-      <input type="text" class="form-control" required
-             #subject="ngModel"
-             [(ngModel)]="orderModel.subject" name="subject">
-    </div>
-
-
-    <div class="form-group">
-      <label>Message: </label>
-      <textarea type="text" class="form-control" required
-             #message="ngModel"
-             [(ngModel)]="orderModel.message" name="message"></textarea>
-    </div>
-
-    <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" [(ngModel)]="orderModel.anonymous" name="anonymous">
-      <label class="form-check-label">I would like to remain anonymous. </label>
-    </div>
-
-    <button class="btn btn-primary" type="submit"
-          [disabled]="!orderForm.form.valid"
-          (click)="confirmOrder(orderForm.value)"
-          title="always enabled">
-      Submit
-    </button>
-
-  </form>
-  <br/>
-  <br/>
-
-<!-- if user submits contact info, take comment? -->
-
-<!-- 
-<h2>Order Confirmation</h2>
-
-{{ orderForm.value | json }}
-<br/>
-Email: {{ orderForm.value.email }}
-<br/>
-Data from order model {{ orderModel | json }}
-<br/><br/>
-Confirm: {{ confirm_msg }} <br/>
-Data submitted:
-<font color="green" style="font-style:italic">
-  {{ data_submitted | json }}
-</font>
-<hr/>
-
-<p>Response from PHP: {{ responsedata | json }} </p>
--->
-
+    <br/>
+    <br/>
+  </div>
 </div>

@@ -56,6 +56,22 @@ try {
    echo "<p>Error message: $error_message </p>";
 }
 
+// add new user's wallet to database
+function addWallet($username, $password_hash, $balance)
+{
+   global $db;
+   $query = "INSERT INTO wallets VALUES 
+            (:username, :password_hash, :balance, 
+            0, 0, 0, 0, 0, 0, 0, 0)";
+
+   $statement = $db->prepare($query);
+   $statement->bindValue('username', $username);
+   $statement->bindValue('password_hash', $password_hash);
+   $statement->bindValue('balance', $balance);
+   $statement->execute();
+   $statement->closeCursor();
+}
+
 // load user's wallet into session variables
 function loadWallet()
 {
