@@ -1,10 +1,10 @@
 <div class="container">
-  <br>
+  <br/>
   <h1>{{ title }}</h1>
-  <br>
-  <h3> Please Enter Your Contact Information Below </h3>
-  <h6> We will reach out shortly to answer any questions</h6>
-  <br>
+  <br/>
+  <h3>{{ subtitle }} </h3>
+  <h6> We will reach out shortly to follow up via email.</h6>
+  <br/>
 
   <!-- add a template reference variable named orderForm to this form tag,
    and assign ngForm directive to it.
@@ -30,7 +30,7 @@
 
      <!-- let's add a template reference called name to the name input -->
      <div class="form-group">
-      <label>Name: </label>
+      <label>Full Name: </label>
       <input type="text"
            required minlength="8"
            #name="ngModel"
@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group">
-      <label>Email: </label>
+      <label>Email Address: </label>
       <input type="email" class="form-control" required
              #email="ngModel"
              pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
@@ -53,42 +53,37 @@
     </div>
 
     <div class="form-group">
-      <label>Phone: </label>
-      <input type="tel" class="form-control" required
-          #phone="ngModel" pattern="^\d{10}$"
-          [class.is-invalid]="phone.invalid && phone.touched"
-          [(ngModel)]="orderModel.phone"  name="phone">
-      <small class="text-danger" [class.d-none]="phone.valid || phone.untouched">Phone number is required and must be 10 digits</small>
+      <label>Subject: </label>
+      <input type="text" class="form-control" required
+             #subject="ngModel"
+             [(ngModel)]="orderModel.subject" name="subject">
     </div>
+
 
     <div class="form-group">
-      <label>Enter your question below that you will like answered below </label>
-      <input type="text" class="form-control" required
-             #email="ngModel"
-             pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-             [(ngModel)]="orderModel.question" name="question">
+      <label>Message: </label>
+      <textarea type="text" class="form-control" required
+             #message="ngModel"
+             [(ngModel)]="orderModel.message" name="message"></textarea>
     </div>
 
-    
-    <!--
     <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" [(ngModel)]="orderModel.sendText" name="sendtxt">
-      <label class="form-check-label">Send me a text message when my order is ready </label>
-    </div> -->
+      <input class="form-check-input" type="checkbox" [(ngModel)]="orderModel.anonymous" name="anonymous">
+      <label class="form-check-label">I would like to remain anonymous. </label>
+    </div>
 
     <button class="btn btn-primary" type="submit"
           [disabled]="!orderForm.form.valid"
           (click)="confirmOrder(orderForm.value)"
           title="always enabled">
-      Place order
+      Submit
     </button>
 
-    <!--  type="submit" class="btn btn-success"
-            [disabled]="!orderForm.form.valid">
-      Submit
-    </button> -->
-  </form>exit
+  </form>
+  <br/>
+  <br/>
 
+<!-- if user submits contact info, take comment? -->
 
 <!-- 
 <h2>Order Confirmation</h2>

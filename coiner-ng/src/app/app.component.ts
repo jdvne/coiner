@@ -14,18 +14,13 @@ export class AppComponent {
   constructor(private http: HttpClient) { }
 
   title = 'Contact Us';
-  subtitle = "Please Enter Your Contact Information Below";
-  author = 'your name';
+  subtitle = "Please enter your contact information below";
 
   confirm_msg = '';
   data_submitted = '';
 
-
   /* create an instance of an Order, assuming there is an existent order */
-  /* we will bind orderModel to the form, allowing an update / delete transaction */
-  orderModel = new Order('student', 'student@uva.edu', 1234567891, 'question?', true);
-  /* orderModel = new Order('', '', null, '', '', null); */
-
+  orderModel = new Order('', '', '', '', false);
 
   confirmOrder(data: any): void {
      console.log(data);
@@ -33,33 +28,23 @@ export class AppComponent {
      this.confirm_msg += '. You ordered ' + data.drink_option;
   }
 
-  responsedata = new Order("", "", null, "", null);
+  responsedata = new Order("", "", "", "", false);
 
-  // passing in a form variable of type any, no return result
+  // function for form submission to php backend
   onSubmit(form: any): void {
-    console.log('You submitted value: ', form);
     this.data_submitted = form;
 
-    // console.log(this.data_submitted, this.data_submitted.name.length);
-    console.log('form submitted ', form);
-
-    // prepare to send a request to the backend PHP
-    // 1. convert the form data to JSON format
+    // convert the form data to JSON format
     let params = JSON.stringify(form);
 
-     // 2. send an HTTP request to the backend
-     // get request or post request
-
-     // send a POST request
-     // post<return_type>('url', data)
+     // send an HTTP POST request to the backend
      this.http.post<Order>('http://localhost/coiner/ng-post.php', params)
         .subscribe((response_from_php) => {
-            // success
+            // set local variable on php response
             this.responsedata = response_from_php;
-            console.log('response data ', this.responsedata)
         }, (error_in_comm) => {
-            // error, handle it in some way
-            console.log("Error occurs ", error_in_comm);
+            // error, notify the user
+            console.log("An error occurred in form submission. Please refresh the page and retry. ", error_in_comm);
         });
 
   }

@@ -1,5 +1,5 @@
 <footer class="primary-footer bg-dark text-center">
-  <small class="copyright" style="color: white">&copy; 2021, Joshua Devine and Abdullah Chaudry</small>
+  <small class="copyright" style="color: white"><a href="http://localhost:4200">Contact Us</a> | &copy; 2021, Joshua Devine and Abdullah Chaudry</small>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
