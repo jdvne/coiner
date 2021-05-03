@@ -23,8 +23,8 @@ export class AppComponent {
   messageModel = new Message('Joshua Devine', 'jdd9kr@virginia.edu', 'Subject', 'Message', false);
 
   confirmMessage(data: any): void {
-     this.confirm_msg = 'Thank you for reaching out';
-     if (!data.anonymous) this.confirm_msg += ", " + data.name;
+    this.confirm_msg = 'Thank you for reaching out';
+    if (!data.anonymous) this.confirm_msg += ", " + data.name;
   }
 
   responsedata = new Message("", "", "", "", false);
@@ -37,15 +37,15 @@ export class AppComponent {
     // convert the form data to JSON format
     let params = JSON.stringify(form);
 
-     // send an HTTP POST request to the backend
-     this.messageService.processMessage(params)
-        .subscribe((response_from_php) => {
-            // set local variable on php response
-            this.responsedata = response_from_php;
-        }, (error_in_comm) => {
-            // error, notify the user
-            console.log("An error occurred in form submission. Please refresh the page and retry. ", error_in_comm);
-        });
+    // send an HTTP POST request to the backend
+    this.messageService.processMessage(params)
+      .subscribe((response_from_php) => {
+          // set local variable on php response
+          this.responsedata = response_from_php;
+      }, (error_in_comm) => {
+          // error, notify the user
+          console.log("An error occurred in form submission. Please refresh the page and retry. ", error_in_comm);
+      });
 
   }
 }

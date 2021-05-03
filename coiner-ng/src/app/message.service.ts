@@ -15,7 +15,7 @@ export class MessageService {
 
   // send a request to the backend
   sendRequest(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost/coiner/ng-post.php', data);
+    return this.http.post<any>('http://localhost/coiner/message.php', data);
   }
 
   processMessage(data: any): Observable<any> {

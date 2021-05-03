@@ -72,20 +72,18 @@
 
   <!-- if submitted, show confirmation -->
   <div class="container" *ngIf="submitted">
-    <h2>Message Confirmation</h2>
+    <h2 [style.color]="'green'"><b>Message Confirmation</b></h2>
 
-    <!-- ngif here and check for anonymous? -->
     <h4>{{ confirm_msg }} </h4>
     <br/>
-    <!-- Email Address: <i>{{ messageForm.value.email }}</i>
-    <br/>
-    Subject: <i>{{ messageForm.value.subject }}</i>
-    <br/>
-    Message: <i> {{ messageForm.value.message }} </i>  -->
+    <h5>Here are the details we were sent --</h5>
+    <div *ngFor="let item of responsedata | keyvalue">
+      <b>{{ item.key | titlecase }}:</b> {{ item.value }}
+      <br/>
+    </div>
     <br/>
     <br/>
 
-    <p>Response from PHP: {{ responsedata | json }} </p>
     <div class="text-center">
       <a href="http://localhost/coiner" class="btn btn-primary">⮱Return to Coiner</a>
     </div>

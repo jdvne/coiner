@@ -17,10 +17,9 @@ $data = [];
 foreach ($request as $k => $v)
 {
     $temp = "$k => $v";
-    $data[0]['post_'.$k] = $v;
+    $data[$k] = $v;
 }
 
-$current_date = date("Y-m-d");
-// send response (json) back to the front end
-echo json_encode(['content'=>$data, 'response_on'=>$current_date]);
+// send data back to frontend
+echo json_encode($data);
 ?>
